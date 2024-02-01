@@ -1,0 +1,55 @@
+{
+    "questions": [
+      {
+        "id": 1,
+        "text": "What is the capital of France?",
+        "options": [
+          { "id": 1, "text": "Berlin", "isCorrect": false },
+          { "id": 2, "text": "Madrid", "isCorrect": false },
+          { "id": 3, "text": "Paris", "isCorrect": true },
+          { "id": 4, "text": "Rome", "isCorrect": false }
+        ]
+      },
+      {
+        "id": 2,
+        "text": "Which planet is known as the Red Planet?",
+        "options": [
+          { "id": 5, "text": "Venus", "isCorrect": false },
+          { "id": 6, "text": "Mars", "isCorrect": true },
+          { "id": 7, "text": "Jupiter", "isCorrect": false },
+          { "id": 8, "text": "Saturn", "isCorrect": false }
+        ]
+      },
+      {
+        "id": 3,
+        "text": "What is the largest mammal in the world?",
+        "options": [
+          { "id": 9, "text": "Elephant", "isCorrect": false },
+          { "id": 10, "text": "Blue Whale", "isCorrect": true },
+          { "id": 11, "text": "Giraffe", "isCorrect": false },
+          { "id": 12, "text": "Polar Bear", "isCorrect": false }
+        ]
+      },
+      {
+        "id": 4,
+        "text": "Who wrote 'Romeo and Juliet'?",
+        "options": [
+          { "id": 13, "text": "Charles Dickens", "isCorrect": false },
+          { "id": 14, "text": "William Shakespeare", "isCorrect": true },
+          { "id": 15, "text": "Jane Austen", "isCorrect": false },
+          { "id": 16, "text": "Mark Twain", "isCorrect": false }
+        ]
+      },
+      {
+        "id": 5,
+        "text": "What is the chemical symbol for gold?",
+        "options": [
+          { "id": 17, "text": "Au", "isCorrect": true },
+          { "id": 18, "text": "Ag", "isCorrect": false },
+          { "id": 19, "text": "Fe", "isCorrect": false },
+          { "id": 20, "text": "Cu", "isCorrect": false }
+        ]
+      }
+    ]
+  }
+  

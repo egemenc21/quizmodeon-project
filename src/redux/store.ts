@@ -1,7 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import  userReducer  from './user'
 import storage from 'redux-persist/lib/storage'
-import { persistReducer, persistStore } from 'redux-persist';
+import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from 'redux-persist';
+import { thunk } from 'redux-thunk';
 
 const persistConfig = {
   key: 'root',
@@ -11,9 +12,13 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, userReducer)
 
 export const store = configureStore({
-  reducer: {
-   user:persistedReducer
-  },
+  reducer: {user:persistedReducer},  
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  }),
 })
 export const persistor = persistStore(store)
 // Infer the `RootState` and `AppDispatch` types from the store itself

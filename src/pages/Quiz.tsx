@@ -7,6 +7,7 @@ import data from "../data/questions.json";
 import Option from "../components/Option";
 import Timer from "../components/Timer";
 import EndScreen from "../components/EndScreen";
+import {motion} from "framer-motion";
 
 export interface OptionProps {
   id: number;
@@ -20,26 +21,38 @@ export interface QuestionProps {
   options: OptionProps[];
 }
 
+const variant = {
+  initial: {
+    opacity: 0,
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      ease: "easeIn",
+    },
+  },
+  
+};
+
 function Quiz() {
   const [endGame, setEndGame] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState(false);
+
 
   const user = useAppSelector(selectUser);
   const currentQuestion = useAppSelector(selectCurrentQuestion);
   const score = useAppSelector(selectScore);
-
-  const [selectedAnswer, setSelectedAnswer] = useState<{
-    id: number;
-    text: string;
-    isCorrect: boolean;
-  } | null>(null);
+ 
 
   const navigate = useNavigate();
   const questions: QuestionProps[] = data.questions;
   const question = questions[currentQuestion];
+
+
   useEffect(() => {
     if (user === "") navigate("/");
     if (currentQuestion === questions.length) setEndGame(true);
-
   }, [user, navigate, currentQuestion, setEndGame, questions.length]);
 
   return (
@@ -56,18 +69,25 @@ function Quiz() {
       ) : (
         <div className="w-[90%] md:w-[60%] mx-auto">
           <Timer selectedAnswer={selectedAnswer} />
-          <div className="text-center py-2">{question?.text}</div>
-          <div className="flex flex-col justify-center ">
-            {question?.options.map((option) => (
-              <Option
-                key={option.id}
-                option={option}
-                setSelectedAnswer={setSelectedAnswer}
-                selectedAnswer={selectedAnswer}
-                setEndGame={setEndGame}
-              />
-            ))}
-          </div>
+          <h2 className="text-center py-2">{question?.text}</h2>          
+            <motion.div
+              variants={variant}
+              initial="initial"
+              animate="animate"
+              className="flex flex-col justify-center "
+            >
+              {question?.options.map((option) => (
+                <Option
+                  key={option.id}
+                  option={option}
+                  setSelectedAnswer={setSelectedAnswer}
+                  selectedAnswer={selectedAnswer}
+                  setEndGame={setEndGame}
+                  isDisabled={isDisabled}
+                  setIsDisabled={setIsDisabled}
+                />
+              ))}
+            </motion.div>          
         </div>
       )}
     </section>

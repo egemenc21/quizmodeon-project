@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from "../hooks";
 import {increaseCurrentQuestion, selectCurrentQuestion} from "../redux/user";
 
 interface TimerProps {
-  selectedAnswer: {id: number; text: string; isCorrect: boolean} | null;
+  selectedAnswer: boolean
 }
 
 export default function Timer({
@@ -26,7 +26,7 @@ export default function Timer({
 
   // When answer is selected, timer stops for a moment
   useEffect(() => {
-    if (selectedAnswer != null) setPause(true);
+    if (selectedAnswer) setPause(true);
   }, [selectedAnswer]);
 
   // On each question, timer resets

@@ -4,27 +4,29 @@ import cn from "classnames";
 import {toast} from "react-toastify";
 import {useAppDispatch} from "../hooks";
 import {increaseCurrentQuestion, increaseScore} from "../redux/user";
+import {motion} from "framer-motion";
+
 interface Props {
   option: OptionProps;
-  selectedAnswer: {
-    id: number;
-    text: string;
-    isCorrect: boolean;
-  } | null;
-  setSelectedAnswer: React.Dispatch<
-    React.SetStateAction<{
-      id: number;
-      text: string;
-      isCorrect: boolean;
-    } | null>
-  >;
-  setEndGame: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedAnswer: boolean;
+  isDisabled: boolean
+  setSelectedAnswer: React.Dispatch<React.SetStateAction<boolean>>;
+  setEndGame: React.Dispatch<React.SetStateAction<boolean>>;  
+  setIsDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const optionAnimation = {
+  initial: {opacity: 0, x: -100},
+  animate: {opacity: 1, x: 0, transition: {duration: 0.7}},
+  exit: {opacity: 0, x: 100, transition: {duration: 0.7}},
+};
 
 function Option({
   option,
   setSelectedAnswer,
   selectedAnswer,
+  isDisabled,
+  setIsDisabled,
 }: Props) {
   const dispatch = useAppDispatch();
   const [selected, setSelected] = useState(false); // to show that answer is selected (purple)
@@ -33,11 +35,8 @@ function Option({
 
   const handleOnClick = () => {
     setSelected(true);
-    setSelectedAnswer({
-      id: option.id,
-      text: option.text,
-      isCorrect: option.isCorrect,
-    });
+    setSelectedAnswer(true);
+    setIsDisabled(true);
 
     setTimeout(() => {
       if (option.isCorrect == false) {
@@ -45,16 +44,16 @@ function Option({
         setFail(true);
       } else {
         toast.success("Your answer is correct");
-        dispatch(increaseScore())
-
+        dispatch(increaseScore());
         setSuccess(true);
       }
       setSelected(false);
-      setSelectedAnswer(null);
+      setSelectedAnswer(false);
 
       setTimeout(() => {
-        dispatch(increaseCurrentQuestion())
-      }, 3000);
+        dispatch(increaseCurrentQuestion());
+        setIsDisabled(false);
+      }, 2000);
     }, 2000);
   };
 
@@ -67,7 +66,8 @@ function Option({
   }
 
   return (
-    <button
+    <motion.button
+      variants={optionAnimation}
       className={cn(
         {"bg-primary": selected},
         {"bg-success": success},
@@ -75,10 +75,10 @@ function Option({
         " border-2 border-primary border-solid w-full mx-auto p-4 m-2 text-center rounded-lg cursor-pointer"
       )}
       onClick={handleOnClick}
-      disabled={selectedAnswer !== null}
+      disabled={isDisabled}
     >
       {option.text}
-    </button>
+    </motion.button>
   );
 }
 export default Option;

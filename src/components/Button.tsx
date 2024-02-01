@@ -1,12 +1,11 @@
+/* eslint-disable react-refresh/only-export-components */
 import { ButtonHTMLAttributes } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  buttonType: string
+  buttonType: BUTTON_TYPE_CLASSES
 }
-
-export const BUTTON_TYPE_CLASSES = {
-  base: 'base',
-  inverted: 'inverted',
+export enum BUTTON_TYPE_CLASSES {
+  base = "base"
 }
 
 function BaseButton({
@@ -21,19 +20,10 @@ function BaseButton({
   )
 }
 
-function InvertedButton({ children }: ButtonHTMLAttributes<HTMLButtonElement>) {
-  return (
-    <button className="p-4 bg-tertiary text-primary rounded-lg" type="submit">
-      {children}
-    </button>
-  )
-}
-
 
 const getButton = (buttonType = BUTTON_TYPE_CLASSES.base) =>
   ({
     [BUTTON_TYPE_CLASSES.base]: BaseButton,  
-    [BUTTON_TYPE_CLASSES.inverted]: InvertedButton,
   })[buttonType]
 
 function Button({ children, onClick, buttonType,type }: ButtonProps) {

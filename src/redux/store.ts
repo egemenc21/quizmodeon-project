@@ -1,12 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit'
-import  UserReducer  from './user'
+import  userReducer  from './user'
+import storage from 'redux-persist/lib/storage'
+import { persistReducer, persistStore } from 'redux-persist';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, userReducer)
 
 export const store = configureStore({
   reducer: {
-   user:UserReducer
+   user:persistedReducer
   },
 })
-
+export const persistor = persistStore(store)
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}

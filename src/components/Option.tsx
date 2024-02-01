@@ -2,14 +2,15 @@ import {useState} from "react";
 import {OptionProps} from "../pages/Quiz";
 import cn from "classnames";
 import {toast} from "react-toastify";
+import {useAppDispatch} from "../hooks";
+import {increaseCurrentQuestion, increaseScore} from "../redux/user";
 interface Props {
   option: OptionProps;
-  setCurrentQuestion: React.Dispatch<React.SetStateAction<number>>;
-  selectedAnswer:{
+  selectedAnswer: {
     id: number;
     text: string;
     isCorrect: boolean;
-  } | null
+  } | null;
   setSelectedAnswer: React.Dispatch<
     React.SetStateAction<{
       id: number;
@@ -17,28 +18,21 @@ interface Props {
       isCorrect: boolean;
     } | null>
   >;
-  setScore: React.Dispatch<React.SetStateAction<number>>;
   setEndGame: React.Dispatch<React.SetStateAction<boolean>>;
-  
 }
 
 function Option({
   option,
   setSelectedAnswer,
-  setCurrentQuestion,
-  setScore,
   selectedAnswer,
-  onClick,
-setOnClick,
 }: Props) {
-  const [selected, setSelected] = useState(false);
-  const [success, setSuccess] = useState(false) //to show that answer is correct
-  const [fail, setFail] = useState(false) // to show that answer is wrong
-
+  const dispatch = useAppDispatch();
+  const [selected, setSelected] = useState(false); // to show that answer is selected (purple)
+  const [success, setSuccess] = useState(false); // to show that answer is correct (green)
+  const [fail, setFail] = useState(false); // to show that answer is wrong (red)
 
   const handleOnClick = () => {
     setSelected(true);
-    setOnClick(true);
     setSelectedAnswer({
       id: option.id,
       text: option.text,
@@ -48,30 +42,29 @@ setOnClick,
     setTimeout(() => {
       if (option.isCorrect == false) {
         toast.error("Your answer is wrong");
-        setFail(true) 
+        setFail(true);
       } else {
         toast.success("Your answer is correct");
-        setScore((prev) => prev + 1);
-        setSuccess(true)
+        dispatch(increaseScore())
+
+        setSuccess(true);
       }
-      setSelected(false);    
-      setSelectedAnswer(null) 
-      setOnClick(false)
+      setSelected(false);
+      setSelectedAnswer(null);
 
       setTimeout(() => {
-        setCurrentQuestion((prev) => prev + 1)
-      }, 2000);     
-     
+        dispatch(increaseCurrentQuestion())
+      }, 3000);
     }, 2000);
-    
   };
-  
-  if(onClick === true){
-  setTimeout(() => {
-    if(option.isCorrect) {setSuccess(true)}  
-    
-  }, 2000);
- }
+
+  if (selectedAnswer) {
+    setTimeout(() => {
+      if (option.isCorrect) {
+        setSuccess(true);
+      }
+    }, 2000);
+  }
 
   return (
     <button
@@ -79,7 +72,7 @@ setOnClick,
         {"bg-primary": selected},
         {"bg-success": success},
         {"bg-fail": fail},
-        "border-2 border-primary border-solid w-[80%] xl:w-2/3 mx-auto p-4 m-2 text-center rounded-lg cursor-pointer"
+        " border-2 border-primary border-solid w-full mx-auto p-4 m-2 text-center rounded-lg cursor-pointer"
       )}
       onClick={handleOnClick}
       disabled={selectedAnswer !== null}

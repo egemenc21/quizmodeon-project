@@ -51,7 +51,7 @@ function Quiz() {
 
 
   useEffect(() => {
-    if (user === "") navigate("/");
+    if (user === "") navigate("/"); // if user is not authenticated, navigate to the log-in page  
     if (currentQuestion === questions.length) setEndGame(true);
   }, [user, navigate, currentQuestion, setEndGame, questions.length]);
 

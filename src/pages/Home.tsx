@@ -19,7 +19,7 @@ function Home() {
     setUserName(value);
   };
   return (
-    <div className="bg-secondary text-black w-full h-[100vh] flex flex-col justify-center  items-center gap-5">
+    <div className="bg-secondary text-black w-full h-[100vh] flex flex-col justify-center  items-center gap-5 px-2">
       <img
         src="https://cmo-templates.s3.amazonaws.com/quizmodeon/brand/logo.png"
         alt="Quiz Mode On"
@@ -34,11 +34,11 @@ function Home() {
           <input
             type="text"
             onChange={handleChange}
-            className="p-2 text-black focus:outline-none focus:ring focus:border-blue-100 rounded-md "
+            className="p-2 mx-2 text-black focus:outline-none focus:ring focus:border-blue-100 rounded-md "
           />
         </label>
 
-        <Button buttonType={BUTTON_TYPE_CLASSES.base}>Start</Button>
+        <Button buttonType={BUTTON_TYPE_CLASSES.base} className="px-5">Start</Button>
       </form>
     </div>
   );

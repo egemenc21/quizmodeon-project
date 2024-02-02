@@ -8,7 +8,7 @@ function Providers({children}: {children: React.ReactNode}) {
     <BrowserRouter>
     <ToastContainer
         position="top-center"
-        autoClose={2900}
+        autoClose={2500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

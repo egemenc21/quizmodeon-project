@@ -36,7 +36,7 @@ function Option({
   const handleOnClick = () => {
     setSelected(true);
     setSelectedAnswer(true);
-    setIsDisabled(true);
+    setIsDisabled(true); // make buttons unclickable, after pressing any button
 
     setTimeout(() => {
       if (option.isCorrect == false) {
@@ -44,19 +44,21 @@ function Option({
         setFail(true);
       } else {
         toast.success("Your answer is correct");
-        dispatch(increaseScore());
+        dispatch(increaseScore()); //increment +1 the score table
         setSuccess(true);
       }
       setSelected(false);
       setSelectedAnswer(false);
 
       setTimeout(() => {
-        dispatch(increaseCurrentQuestion());
+        dispatch(increaseCurrentQuestion()); //go on to the next question
         setIsDisabled(false);
       }, 2000);
     }, 2000);
   };
 
+
+  // when an answer is clicked show the correct answer between other options
   if (selectedAnswer) {
     setTimeout(() => {
       if (option.isCorrect) {
